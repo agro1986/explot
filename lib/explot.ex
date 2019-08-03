@@ -85,12 +85,20 @@ for line in sys.stdin:
   @doc """
     Shows the plot and kills the agent.
   """
-  def show(agent) do
-    plot_command(agent, "grid(True)")
-    plot_command(agent, "legend()")
+  def show(agent, opts \\ [pure: false]) do
+    
+    if opts[:pure] == false do
+      plot_command(agent, "grid(True)")
+      plot_command(agent, "legend()")
+    end
+    
     plot_command(agent, "show()")
     Port.close(port(agent))
     Agent.stop(agent, :normal)
+  end
+  
+  def show_pure(agent) do
+    show(agent, pure: true)
   end
 
   @doc """
