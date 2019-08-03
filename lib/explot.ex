@@ -63,6 +63,13 @@ for line in sys.stdin:
     plot_command(agent, "xticks(#{to_python_array(array_of_indexes)}, #{labels_to_print})") #, rotation=60)")
   end
   
+  def plot(agent, xs, ys, opts \\ []) do
+    xs_str = numbers_to_python_array(xs)
+    ys_str = numbers_to_python_array(ys)
+    opts_str = opts_to_string(opts)
+    plot_command(agent, "plot(#{xs_str}, #{ys_str}#{opts_str})")
+  end
+  
   def scatter(agent, xs, ys, opts \\ []) do
     xs_str = numbers_to_python_array(xs)
     ys_str = numbers_to_python_array(ys)
