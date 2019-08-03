@@ -22,7 +22,7 @@ defmodule Explot.Mixfile do
 
   defp package do
     [files: ["lib", "mix.exs", "README.md", "LICENSE"],
-     maintainers: ["Jordi Polo Carres"],
+     maintainers: ["Jordi Polo Carres", "Agro Rachmatullah"],
      licenses: ["Apache 2.0"],
      links: %{"GitHub" => "https://github.com/jordipolo/explot"}]
   end
