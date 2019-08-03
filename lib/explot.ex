@@ -72,9 +72,9 @@ for line in sys.stdin:
   
   def opts_to_string([]), do: ""
   def opts_to_string(opts) do
-    "," <> opts
+    "," <> (opts
     |> Enum.map(fn {key, value} -> opt_to_string(key, value) end)
-    |> Enum.join(", ")
+    |> Enum.join(", "))
   end
   
   def opt_to_string(key, value) do
