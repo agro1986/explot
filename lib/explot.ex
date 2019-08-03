@@ -1,5 +1,5 @@
 defmodule Explot do
-  @docmodule """
+  @moduledoc """
   The main module of this package. It provides an easy way to use Python's Matplotlib.
   It allows to send arbitrary commands to be interpreted by Python.
   It also provides functions to make it easy to use the most common functionality of Matplotlib.
@@ -62,6 +62,12 @@ for line in sys.stdin:
     labels_to_print = to_python_array(labels_available)
     plot_command(agent, "xticks(#{to_python_array(array_of_indexes)}, #{labels_to_print})") #, rotation=60)")
   end
+  
+  def scatter(agent, xs, ys) do
+    xs_str = numbers_to_python_array(xs)
+    ys_str = numbers_to_python_array(ys)
+    plot_command(agent, "scatter(#{xs_str}, #{ys_str})")
+  end
 
   @doc """
     Shows the plot and kills the agent.
@@ -92,6 +98,10 @@ for line in sys.stdin:
     Agent.get(agent, &Map.get(&1, :port))
   end
   
+  def numbers_to_python_array(objs) do
+    inspect objs, charlists: :as_lists, limit: :infinity
+  end
+  
   def to_python_string(str) do
     str = String.replace(str, "\\", "\\\\")
     str = String.replace(str, "\"", "\\\"")
@@ -120,7 +130,7 @@ for line in sys.stdin:
   defp limit_indexes(array) do
     divisor = Enum.max([round(Float.floor(length(array) /10)), 1])
     data = Enum.take_every(array, divisor)
-    indexes = Enum.take_every(Enum.to_list(0..length(array) -1), divisor)
+    indexes = Enum.take_every(Enum.to_list((0..length(array)) - 1), divisor)
     {data, indexes}
   end
 
