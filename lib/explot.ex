@@ -63,10 +63,23 @@ for line in sys.stdin:
     plot_command(agent, "xticks(#{to_python_array(array_of_indexes)}, #{labels_to_print})") #, rotation=60)")
   end
   
-  def scatter(agent, xs, ys) do
+  def scatter(agent, xs, ys, opts \\ []) do
     xs_str = numbers_to_python_array(xs)
     ys_str = numbers_to_python_array(ys)
-    plot_command(agent, "scatter(#{xs_str}, #{ys_str})")
+    opts_str = opts_to_string(opts)
+    plot_command(agent, "scatter(#{xs_str}, #{ys_str}#{opts_str})")
+  end
+  
+  def opts_to_string([]), do: ""
+  def opts_to_string(opts) do
+    "," <> opts
+    |> Enum.map(fn {key, value} -> opt_to_string(key, value) end)
+    |> Enum.join(", ")
+  end
+  
+  def opt_to_string(key, value) do
+    value_str = if is_binary(value), do: to_python_string(value), else: "#{value}"
+    "#{key}=#{value_str}"
   end
 
   @doc """
