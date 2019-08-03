@@ -92,6 +92,10 @@ for line in sys.stdin:
   def legend(agent) do
     plot_command(agent, "legend()")
   end
+  
+  def axis(agent, desc) do
+    plot_command(agent, "axis(#{to_python_string desc})")
+  end
 
   @doc """
     Shows the plot and kills the agent.
