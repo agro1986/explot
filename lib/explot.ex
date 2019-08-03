@@ -88,6 +88,10 @@ for line in sys.stdin:
     value_str = if is_binary(value), do: to_python_string(value), else: "#{value}"
     "#{key}=#{value_str}"
   end
+  
+  def legend(agent) do
+    plot_command(agent, "legend()")
+  end
 
   @doc """
     Shows the plot and kills the agent.
@@ -96,7 +100,7 @@ for line in sys.stdin:
     
     if opts[:pure] == false do
       plot_command(agent, "grid(True)")
-      plot_command(agent, "legend()")
+      legend(agent)
     end
     
     plot_command(agent, "show()")
