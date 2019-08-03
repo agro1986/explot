@@ -91,6 +91,15 @@ for line in sys.stdin:
   defp port(agent) do
     Agent.get(agent, &Map.get(&1, :port))
   end
+  
+  def to_python_string(str) do
+    str = String.replace(str, "\\", "\\\\")
+    str = String.replace(str, "\"", "\\\"")
+    str = String.replace(str, "\r", "\\r")
+    str = String.replace(str, "\n", "\\n")
+    str = String.replace(str, "\t", "\\t")
+    "\"#{str}\""
+  end
 
   defp to_python_array([h | t]) when is_number(h) do
     comma_separated = [h | t] |> Enum.join(", ")
