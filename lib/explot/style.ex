@@ -4,6 +4,6 @@ defmodule Explot.Style do
   import Explot
 
   def use(agent, style_name) do
-    plot_command(agent, "style.use(#{to_python_string style_name})")
+    plot_command(agent, "style.use(#{to_python style_name})")
   end
 end

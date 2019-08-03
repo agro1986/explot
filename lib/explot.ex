@@ -63,13 +63,21 @@ for line in sys.stdin:
     plot_command(agent, "xticks(#{to_python_array(array_of_indexes)}, #{labels_to_print})") #, rotation=60)")
   end
   
+  @doc """
+    Draws a line plot. `xs` is an array of x coordinates, for example `[1.0, 1.5, 2.0]`.
+    `ys` is an array of y coordinates.
+  """
   def plot(agent, xs, ys, opts \\ []) do
     xs_str = numbers_to_python_array(xs)
     ys_str = numbers_to_python_array(ys)
     opts_str = opts_to_string(opts)
     plot_command(agent, "plot(#{xs_str}, #{ys_str}#{opts_str})")
   end
-  
+
+  @doc """
+    Draws a scatter plot. `xs` is an array of x coordinates, for example `[1.0, 1.5, 2.0]`.
+    `ys` is an array of y coordinates.
+  """
   def scatter(agent, xs, ys, opts \\ []) do
     xs_str = numbers_to_python_array(xs)
     ys_str = numbers_to_python_array(ys)
@@ -85,16 +93,28 @@ for line in sys.stdin:
   end
   
   def opt_to_string(key, value) do
-    value_str = if is_binary(value), do: to_python_string(value), else: "#{value}"
-    "#{key}=#{value_str}"
+    "#{key}=#{to_python value}"
   end
-  
+
+  @doc """
+    Shows the legend.
+  """
   def legend(agent) do
     plot_command(agent, "legend()")
   end
-  
+
+  @doc """
+    Changes the axis.
+  """
   def axis(agent, desc) do
-    plot_command(agent, "axis(#{to_python_string desc})")
+    plot_command(agent, "axis(#{to_python desc})")
+  end
+
+  @doc """
+    Toggles the grid.
+  """
+  def grid(agent, is_show) do
+    plot_command(agent, "grid(#{to_python is_show})")
   end
 
   @doc """
@@ -138,7 +158,10 @@ for line in sys.stdin:
     inspect objs, charlists: :as_lists, limit: :infinity
   end
   
-  def to_python_string(str) do
+  def to_python(true), do: "True"
+  def to_python(false), do: "False"
+  
+  def to_python(str) when is_binary(str) do
     str = String.replace(str, "\\", "\\\\")
     str = String.replace(str, "\"", "\\\"")
     str = String.replace(str, "\r", "\\r")
@@ -146,6 +169,8 @@ for line in sys.stdin:
     str = String.replace(str, "\t", "\\t")
     "\"#{str}\""
   end
+  
+  def to_python(any), do: "#{any}"
 
   defp to_python_array([h | t]) when is_number(h) do
     comma_separated = [h | t] |> Enum.join(", ")
