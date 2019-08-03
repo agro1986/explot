@@ -85,6 +85,9 @@ for line in sys.stdin:
     plot_command(agent, "scatter(#{xs_str}, #{ys_str}#{opts_str})")
   end
   
+  @doc """
+    Encodes optional arguments.
+  """
   def opts_to_string([]), do: ""
   def opts_to_string(opts) do
     "," <> (opts
@@ -92,6 +95,9 @@ for line in sys.stdin:
     |> Enum.join(", "))
   end
   
+  @doc """
+    Encodes a single optional argument.
+  """
   def opt_to_string(key, value) do
     "#{key}=#{to_python value}"
   end
@@ -121,9 +127,8 @@ for line in sys.stdin:
     Shows the plot and kills the agent.
   """
   def show(agent, opts \\ [pure: false]) do
-    
     if opts[:pure] == false do
-      plot_command(agent, "grid(True)")
+      grid(agent, true)
       legend(agent)
     end
     
@@ -131,7 +136,10 @@ for line in sys.stdin:
     Port.close(port(agent))
     Agent.stop(agent, :normal)
   end
-  
+
+  @doc """
+    Shows the plot without specifically turning on grids and legends, then kills the agent.
+  """
   def show_pure(agent) do
     show(agent, pure: true)
   end
@@ -154,10 +162,16 @@ for line in sys.stdin:
     Agent.get(agent, &Map.get(&1, :port))
   end
   
+  @doc """
+    Encodes an array of numbers.
+  """
   def numbers_to_python_array(objs) do
     inspect objs, charlists: :as_lists, limit: :infinity
   end
-  
+
+  @doc """
+    Encodes various data types to Python.
+  """
   def to_python(true), do: "True"
   def to_python(false), do: "False"
   
