@@ -89,8 +89,9 @@ for line in sys.stdin:
     Encodes optional arguments.
   """
   def opts_to_string([]), do: ""
-  def opts_to_string(opts) do
-    "," <> (opts
+  def opts_to_string(opts, this_method_opts \\ [initial_comma: true]) do
+    initial_comma = if this_method_opts[:initial_comma] == true, do: ",", else: ""
+    initial_comma <> (opts
     |> Enum.map(fn {key, value} -> opt_to_string(key, value) end)
     |> Enum.join(", "))
   end
@@ -117,10 +118,29 @@ for line in sys.stdin:
   end
 
   @doc """
+    Sets the x-axis ticks.
+  """
+  def xticks(agent, ticks) do
+    plot_command(agent, "xticks(#{numbers_to_python_array ticks})")
+  end
+
+  @doc """
+    Sets the y-axis ticks.
+  """
+  def yticks(agent, ticks) do
+    plot_command(agent, "yticks(#{numbers_to_python_array ticks})")
+  end
+
+  @doc """
     Toggles the grid.
   """
-  def grid(agent, is_show) do
+  def grid(agent, is_show) when is_boolean(is_show) do
     plot_command(agent, "grid(#{to_python is_show})")
+  end
+
+  def grid(agent, opts) when is_list(opts) do
+    opts_str = opts_to_string(initial_comma: false)
+    plot_command(agent, "grid(#{opts_str})")
   end
 
   @doc """
