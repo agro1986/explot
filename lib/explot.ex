@@ -38,6 +38,20 @@ for line in sys.stdin:
   end
 
   @doc """
+    Sets x_min and x_max.
+  """
+  def xlim(agent, limits) do
+    plot_command(agent, "xlim('#{numbers_to_python_array limits}')")
+  end
+
+  @doc """
+    Sets y_min and y_max.
+  """
+  def ylim(agent, limits) do
+    plot_command(agent, "ylim('#{numbers_to_python_array limits}')")
+  end
+
+  @doc """
     Sets the title of the plot. This must be setup before showing the plot.
   """
   def title(agent, label) do
