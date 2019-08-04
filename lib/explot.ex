@@ -184,6 +184,10 @@ for line in sys.stdin:
     "\"#{str}\""
   end
   
+  def to_python(objs) when is_list(objs) do
+    numbers_to_python_array objs
+  end
+  
   def to_python(any), do: "#{any}"
 
   defp to_python_array([h | t]) when is_number(h) do
