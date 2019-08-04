@@ -139,7 +139,7 @@ for line in sys.stdin:
   end
 
   def grid(agent, opts) when is_list(opts) do
-    opts_str = opts_to_string(initial_comma: false)
+    opts_str = opts_to_string(opts, initial_comma: false)
     plot_command(agent, "grid(#{opts_str})")
   end
 
