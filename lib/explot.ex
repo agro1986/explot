@@ -41,14 +41,14 @@ for line in sys.stdin:
     Sets x_min and x_max.
   """
   def xlim(agent, limits) do
-    plot_command(agent, "xlim('#{numbers_to_python_array limits}')")
+    plot_command(agent, "xlim(#{numbers_to_python_array limits})")
   end
 
   @doc """
     Sets y_min and y_max.
   """
   def ylim(agent, limits) do
-    plot_command(agent, "ylim('#{numbers_to_python_array limits}')")
+    plot_command(agent, "ylim(#{numbers_to_python_array limits})")
   end
 
   @doc """
